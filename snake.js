@@ -1,7 +1,6 @@
 $(document).ready(function(){
   createGrid(40);
-
-
+  $("#20").css("background-color","blue");
 });
 
 
@@ -13,10 +12,19 @@ function createGrid(v){
         for(var x = 1; x <= v; x++){
             var square = document.createElement("div");
             square.className = "square";
-            // square.innerText = (i * v) + x;
+            square.id = (i * v) + x
             row.appendChild(square);
         }
         body.appendChild(row);
       }
     };
+
+var snake = {
+  initialPosition: [1,20],
+  direction: "right"
+}
+
+var currentSnake =  [[20,20]]
+
+
 
