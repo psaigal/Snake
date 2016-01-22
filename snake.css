@@ -1,0 +1,15 @@
+.row {
+ line-height: 0;
+}
+
+div.square {
+  border: 1px solid gray;
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin: 0px;
+}
+
+h1 {
+  text-align: center;
+}
