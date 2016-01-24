@@ -1,7 +1,68 @@
 $(document).ready(function(){
   createGrid(40);
   $("#20").css("background-color","blue");
+  $("#" + randomNumber()).css("background-color","green");
+
+
+  $("body").keyup(function(e) {
+    if (e.keyCode == 38) { //up
+      snake.direction = "up"
+      alert('Up');
+    }
+    else if (e.keyCode == 40) { //down
+      snake.direction = "down"
+      alert('Down');
+    }
+    else if (e.keyCode == 39) { //right
+      snake.direction = "right"
+      alert("Right");
+    }
+    else if (e.keyCode == 37) { //left
+      snake.direction = "left";
+      setInterval(function() {
+      ($('#' + (snake.frontPosition[1]))).css("background-color","none");
+      ($('#' + (snake.frontPosition[1] -= 1))).css("background-color","blue");
+    }, 100);
+    };
+  });
+
+
+
+
 });
+
+var snake = {
+  frontPosition: [1,20],
+  direction: "right"
+}
+
+
+// function move() {
+//   if (snake.direction == "left") {
+//     console.log($("#" + snake.position[1]-1))
+//     $("#" + snake.position[1]-1).css("background-color","red");
+//   }
+// }
+
+// if left is clicked,
+//   #(position[2]-1).css("background-color","red");
+
+//position of snake is specified by [row#, square#]
+
+
+//if left is pressed, snake position is [row#, square#-1]
+//
+
+//if right is pressed, snake position is [row#, square#+1]
+//
+
+//if up is pressed, snake position is [row#+1, square#]
+//
+
+//if down is pressed, snake position is [row#-1, square#]
+//
+
+
 
 
 function createGrid(v){
@@ -9,6 +70,7 @@ function createGrid(v){
       for (var i = 0; i < v; i++) {
         var row = document.createElement("div");
         row.className = "row";
+        row.id = "row-" + (i + 1)
         for(var x = 1; x <= v; x++){
             var square = document.createElement("div");
             square.className = "square";
@@ -19,12 +81,29 @@ function createGrid(v){
       }
     };
 
-var snake = {
-  initialPosition: [1,20],
-  direction: "right"
+
+
+
+
+function randomNumber() {
+  return Math.floor((Math.random() * 1600) + 1);
 }
 
-var currentSnake =  [[20,20]]
+
+
+
+
+
+
+// var food = randomNumber
+
+// var currentSnake =  [[20,20]]
+
+
+
+// function move() {
+
+
 
 
 
