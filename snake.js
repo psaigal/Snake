@@ -1,28 +1,36 @@
 $(document).ready(function(){
   createGrid(40);
   $("#20").css("background-color","blue");
-  $("#" + randomNumber()).css("background-color","green");
-
+  var food = $("#" + randomNumber()).css("background-color","green");
 
   $("body").keyup(function(e) {
     if (e.keyCode == 38) { //up
-      snake.direction = "up"
-      alert('Up');
+      snake.direction = "up";
+      setInterval(function() {
+      ($('#' + (snake.frontPosition[1]))).css("background-color","none");
+      ($('#' + (snake.frontPosition[1] -= 40))).css("background-color","blue");
+    }, 300);
     }
     else if (e.keyCode == 40) { //down
-      snake.direction = "down"
-      alert('Down');
+      snake.direction = "down";
+      setInterval(function() {
+      ($('#' + (snake.frontPosition[1]))).css("background-color","none");
+      ($('#' + (snake.frontPosition[1] += 40))).css("background-color","blue");
+    }, 300);
     }
     else if (e.keyCode == 39) { //right
-      snake.direction = "right"
-      alert("Right");
+      snake.direction = "right";
+      setInterval(function() {
+      ($('#' + (snake.frontPosition[1]))).css("background-color","none");
+      ($('#' + (snake.frontPosition[1] += 1))).css("background-color","blue");
+    }, 300);
     }
     else if (e.keyCode == 37) { //left
       snake.direction = "left";
       setInterval(function() {
       ($('#' + (snake.frontPosition[1]))).css("background-color","none");
       ($('#' + (snake.frontPosition[1] -= 1))).css("background-color","blue");
-    }, 100);
+    }, 300);
     };
   });
 
