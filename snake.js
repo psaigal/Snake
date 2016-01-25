@@ -2,12 +2,35 @@ $(document).ready(function(){
   createGrid(40);
   food.setPosition();
   $("#20").css("background-color","red");
+  direction();
+});
 
 
+function direction() {
   $("body").keydown(function(e) {
     if (e.keyCode == 38) { //up
       snake.direction = "up";
-      setInterval(function() {
+      move()
+    }
+    else if (e.keyCode == 40) { //down
+        snake.direction = "down";
+        move()
+    }
+    else if (e.keyCode == 39) { //right
+        snake.direction = "right";
+        move()
+    }
+     else if (e.keyCode == 37) { //left
+        snake.direction = "left";
+        move()
+    }
+  });
+};
+
+
+function move() {
+  setInterval(function() {
+  if (snake.direction == "up") {
         for (i = 0; i < snake.position.length; i ++) {
           $('#' + (snake.position[i])).css("background-color","none");
           snake.position[i] -= 40;
@@ -18,14 +41,9 @@ $(document).ready(function(){
             var x = snake.position[snake.position.length-1];
             snake.position.push(x+40);
             console.log(snake.position.length)
-
-          }
-
-      }, 600);
-    }
-    else if (e.keyCode == 40) { //down
-      snake.direction = "down";
-      setInterval(function() {
+        }
+      }
+  else if (snake.direction == "down") {
         for (i = 0; i < snake.position.length; i ++) {
           $('#' + (snake.position[i])).css("background-color","none");
           snake.position[i] += 40;
@@ -36,58 +54,117 @@ $(document).ready(function(){
             var x = snake.position[snake.position.length-1];
             snake.position.push(x-40);
           }
+      }
+  else if (snake.direction == "right") {
 
-      }, 1000);
-    }
-
-    else if (e.keyCode == 39) { //right
-      snake.direction = "right";
-      setInterval(function() {
         for (i = 0; i < snake.position.length; i ++) {
           $('#' + (snake.position[i])).css("background-color","none");
           snake.position[i] += 1;
            $('#' + (snake.position[i])).css("background-color","red");
+           console.log(snake.position[i])
         }
         if (snake.position[0] == food.position) {
             food.setPosition();
             var x = snake.position[snake.position.length-1];
             snake.position.push(x-1);
             console.log(snake.position.length)
+       }
+     }
+  else if (snake.direction == "left") {
 
-          }
-
-      }, 1000);
-
-
-    }
-
-
-
-    else if (e.keyCode == 37) { //left
-      snake.direction = "left";
-      setInterval(function() {
         for (i = 0; i < snake.position.length; i ++) {
           $('#' + (snake.position[i])).css("background-color","none");
           snake.position[i] -= 1;
            $('#' + (snake.position[i])).css("background-color","red");
         }
         if (snake.position[0] == food.position) {
-          food.setPosition();
+            food.setPosition();
               var x = snake.position[snake.position.length-1];
               snake.position.push(x+1);
               console.log(snake.position.length)
-
           }
-
-      }, 600);
-
-}
-
+        }
+  }, 600)
+};
 
 
 
-  });
-});
+// function move() {
+//   $("body").keydown(function(e) {
+//     if (e.keyCode == 38) { //up
+//       snake.direction = "up";
+//       setInterval(function() {
+//         for (i = 0; i < snake.position.length; i ++) {
+//           $('#' + (snake.position[i])).css("background-color","none");
+//           snake.position[i] -= 40;
+//            $('#' + (snake.position[i])).css("background-color","red");
+//         }
+//         if (snake.position[0] == food.position) {
+//             food.setPosition();
+//             var x = snake.position[snake.position.length-1];
+//             snake.position.push(x+40);
+//             console.log(snake.position.length)
+
+//           }
+
+//       }, 600);
+//     }
+//     else if (e.keyCode == 40) { //down
+//       snake.direction = "down";
+//       setInterval(function() {
+//         for (i = 0; i < snake.position.length; i ++) {
+//           $('#' + (snake.position[i])).css("background-color","none");
+//           snake.position[i] += 40;
+//            $('#' + (snake.position[i])).css("background-color","red");
+//         }
+//         if (snake.position[0] == food.position) {
+//             food.setPosition();
+//             var x = snake.position[snake.position.length-1];
+//             snake.position.push(x-40);
+//           }
+
+//       }, 1000);
+//     }
+//     else if (e.keyCode == 39) { //right
+//       snake.direction = "right";
+//       setInterval(function() {
+//         for (i = 0; i < snake.position.length; i ++) {
+//           $('#' + (snake.position[i])).css("background-color","none");
+//           snake.position[i] += 1;
+//            $('#' + (snake.position[i])).css("background-color","red");
+//            console.log(snake.position[i])
+//         }
+//         if (snake.position[0] == food.position) {
+//             food.setPosition();
+//             var x = snake.position[snake.position.length-1];
+//             snake.position.push(x-1);
+//             console.log(snake.position.length)
+//           }
+//       }, 1000);
+//     }
+//     else if (e.keyCode == 37) { //left
+//       snake.direction = "left";
+//       setInterval(function() {
+//         for (i = 0; i < snake.position.length; i ++) {
+//           $('#' + (snake.position[i])).css("background-color","none");
+//           snake.position[i] -= 1;
+//            $('#' + (snake.position[i])).css("background-color","red");
+//         }
+//         if (snake.position[0] == food.position) {
+//           food.setPosition();
+//               var x = snake.position[snake.position.length-1];
+//               snake.position.push(x+1);
+//               console.log(snake.position.length)
+//           }
+//       }, 600);
+//     }
+//   });
+// };
+
+
+
+
+
 
 
 function randomNumber() {
@@ -95,7 +172,7 @@ function randomNumber() {
 }
 
 var food = {
-  position: 140,
+  position: randomNumber(),
   setPosition: function() {$("#" + this.position).css("background-color","green")}
 
 }
