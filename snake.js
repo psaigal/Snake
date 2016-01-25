@@ -1,75 +1,116 @@
 $(document).ready(function(){
   createGrid(40);
-  $("#20").css("background-color","blue");
-  var food = $("#" + randomNumber()).css("background-color","green");
+  food.setPosition();
+  $("#20").css("background-color","red");
 
-  $("body").keyup(function(e) {
+
+  $("body").keydown(function(e) {
     if (e.keyCode == 38) { //up
       snake.direction = "up";
       setInterval(function() {
-      ($('#' + (snake.frontPosition[1]))).css("background-color","none");
-      ($('#' + (snake.frontPosition[1] -= 40))).css("background-color","blue");
-    }, 300);
+        for (i = 0; i < snake.position.length; i ++) {
+          $('#' + (snake.position[i])).css("background-color","none");
+          snake.position[i] -= 40;
+           $('#' + (snake.position[i])).css("background-color","red");
+        }
+        if (snake.position[0] == food.position) {
+            food.setPosition();
+            var x = snake.position[snake.position.length-1];
+            snake.position.push(x+40);
+            console.log(snake.position.length)
+
+          }
+
+      }, 600);
     }
     else if (e.keyCode == 40) { //down
       snake.direction = "down";
       setInterval(function() {
-      ($('#' + (snake.frontPosition[1]))).css("background-color","none");
-      ($('#' + (snake.frontPosition[1] += 40))).css("background-color","blue");
-    }, 300);
+        for (i = 0; i < snake.position.length; i ++) {
+          $('#' + (snake.position[i])).css("background-color","none");
+          snake.position[i] += 40;
+           $('#' + (snake.position[i])).css("background-color","red");
+        }
+        if (snake.position[0] == food.position) {
+            food.setPosition();
+            var x = snake.position[snake.position.length-1];
+            snake.position.push(x-40);
+          }
+
+      }, 1000);
     }
+
     else if (e.keyCode == 39) { //right
       snake.direction = "right";
       setInterval(function() {
-      ($('#' + (snake.frontPosition[1]))).css("background-color","none");
-      ($('#' + (snake.frontPosition[1] += 1))).css("background-color","blue");
-    }, 300);
+        for (i = 0; i < snake.position.length; i ++) {
+          $('#' + (snake.position[i])).css("background-color","none");
+          snake.position[i] += 1;
+           $('#' + (snake.position[i])).css("background-color","red");
+        }
+        if (snake.position[0] == food.position) {
+            food.setPosition();
+            var x = snake.position[snake.position.length-1];
+            snake.position.push(x-1);
+            console.log(snake.position.length)
+
+          }
+
+      }, 1000);
+
+
     }
+
+
+
     else if (e.keyCode == 37) { //left
       snake.direction = "left";
       setInterval(function() {
-      ($('#' + (snake.frontPosition[1]))).css("background-color","none");
-      ($('#' + (snake.frontPosition[1] -= 1))).css("background-color","blue");
-    }, 300);
-    };
-  });
+        for (i = 0; i < snake.position.length; i ++) {
+          $('#' + (snake.position[i])).css("background-color","none");
+          snake.position[i] -= 1;
+           $('#' + (snake.position[i])).css("background-color","red");
+        }
+        if (snake.position[0] == food.position) {
+          food.setPosition();
+              var x = snake.position[snake.position.length-1];
+              snake.position.push(x+1);
+              console.log(snake.position.length)
 
+          }
 
+      }, 600);
 
-
-});
-
-var snake = {
-  frontPosition: [1,20],
-  direction: "right"
 }
 
 
-// function move() {
-//   if (snake.direction == "left") {
-//     console.log($("#" + snake.position[1]-1))
-//     $("#" + snake.position[1]-1).css("background-color","red");
-//   }
-// }
-
-// if left is clicked,
-//   #(position[2]-1).css("background-color","red");
-
-//position of snake is specified by [row#, square#]
 
 
-//if left is pressed, snake position is [row#, square#-1]
-//
+  });
+});
 
-//if right is pressed, snake position is [row#, square#+1]
-//
 
-//if up is pressed, snake position is [row#+1, square#]
-//
+function randomNumber() {
+  return Math.floor((Math.random() * 1600) + 1);
+}
 
-//if down is pressed, snake position is [row#-1, square#]
-//
+var food = {
+  position: 140,
+  setPosition: function() {$("#" + this.position).css("background-color","green")}
 
+}
+
+function eat() {
+  if ($('#' + snake.frontPosition) == $("#" + food.position)) {
+    alert("Hello! I am an alert box!!");
+  };
+}
+
+var snake = {
+  frontPosition: 20,
+  position: [20],
+  direction: "right"
+}
 
 
 
@@ -91,25 +132,6 @@ function createGrid(v){
 
 
 
-
-
-function randomNumber() {
-  return Math.floor((Math.random() * 1600) + 1);
-}
-
-
-
-
-
-
-
-// var food = randomNumber
-
-// var currentSnake =  [[20,20]]
-
-
-
-// function move() {
 
 
 
