@@ -13,10 +13,12 @@ createGrid(40);
 
 var snake = {
   frontPosition: 20,
-  direction: "down"
+  direction: undefined
 }
 
 var growingSnake = [20];
+
+var currentTimer;
 
  $("body").keydown(function(event) {
     direction(event);
@@ -28,8 +30,10 @@ function direction(e) {
         return gameOver();
       }
       else {
+        window.clearInterval(currentTimer);
         snake.direction = "up";
-        move("up", 40, "subtract");
+        var up = setInterval(function(){move("up", 40, "subtract")},500);
+        currentTimer = up;
       }
     }
     else if (e.keyCode == 40) { //down
@@ -37,8 +41,10 @@ function direction(e) {
         return gameOver();
       }
       else {
+        window.clearInterval(currentTimer);
         snake.direction = "down";
-        move("down", 40, "add");
+        var down = setInterval(function(){move("down", 40, "add")},500);
+        currentTimer = down;
       }
     }
     else if (e.keyCode == 39) { //right
@@ -46,18 +52,22 @@ function direction(e) {
         return gameOver();
       }
       else {
+        window.clearInterval(currentTimer);
         snake.direction = "right";
-        move("right", 1, "add");
+        var right = setInterval(function(){move("right", 1, "add")},500);
+        currentTimer= right;
       }
     }
      else if (e.keyCode == 37) { //left
-        if (rightOrLeftEndGame(growingSnake[0]-1)) {
-          return gameOver();
-        }
-        else {
-          snake.direction = "left";
-          move("left", 1, "subtract");
-        }
+      if (rightOrLeftEndGame(growingSnake[0]-1)) {
+        return gameOver();
+      }
+      else {
+        window.clearInterval(currentTimer);
+        snake.direction = "left";
+        var left = setInterval(function(){move("left", 1, "subtract")},500);
+        currentTimer= left;
+      }
     }
 };
 
@@ -76,7 +86,6 @@ function move(direction, position, operator) {
       if (growingSnake[i] == food.position) {
         findFood();
       }
-      console.log(growingSnake + " growing-snake!");
     }
     else if (growingSnake.length !=1) {
       if(i == 0) {
