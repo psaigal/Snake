@@ -19,35 +19,53 @@ var snake = {
 var growingSnake = [20];
 
  $("body").keydown(function(event) {
-  direction(event);
+    direction(event);
  });
 
 function direction(e) {
     if (e.keyCode == 38) { //up
-      snake.direction = "up";
-      move("up", 40, "subtract");
+      if (upOrDownEndGame(growingSnake[0])) {
+        return gameOver();
+      }
+      else {
+        snake.direction = "up";
+        move("up", 40, "subtract");
+      }
     }
     else if (e.keyCode == 40) { //down
+      if (upOrDownEndGame(growingSnake[0])) {
+        return gameOver();
+      }
+      else {
         snake.direction = "down";
         move("down", 40, "add");
+      }
     }
     else if (e.keyCode == 39) { //right
+      if (rightOrLeftEndGame(growingSnake[0])) {
+        return gameOver();
+      }
+      else {
         snake.direction = "right";
         move("right", 1, "add");
+      }
     }
      else if (e.keyCode == 37) { //left
-        snake.direction = "left";
-        move("left", 1, "subtract");
+        if (rightOrLeftEndGame(growingSnake[0]-1)) {
+          return gameOver();
+        }
+        else {
+          snake.direction = "left";
+          move("left", 1, "subtract");
+        }
     }
 };
 
 function move(direction, position, operator) {
   var blah = growingSnake.slice();
-  console.log(blah + " blah");
-  console.log(growingSnake + " snake-growing");
   for(i = 0; i < growingSnake.length; i++) {
     if (growingSnake.length == 1) {
-      $('#' + (growingSnake[i])).css("background-color","yellow");
+      $('#' + (growingSnake[i])).css("background-color","#d3d3d3");
       if (operator == "add") {
         growingSnake[i] = growingSnake[i] + position;
       }
@@ -58,41 +76,37 @@ function move(direction, position, operator) {
       if (growingSnake[i] == food.position) {
         findFood();
       }
+      console.log(growingSnake + " growing-snake!");
     }
     else if (growingSnake.length !=1) {
       if(i == 0) {
         if (operator == "add") {
-          $('#' + (blah[i])).css("background-color","yellow");
+          $('#' + (blah[i])).css("background-color","#d3d3d3");
           growingSnake[i] = blah[i] + position;
+          if (growingSnake[i] > 1600 || growingSnake[i] < 0){
+            console.log('Game Over');
+          }
           $('#' + (growingSnake[i])).css("background-color","red");
-          console.log(blah + " blah2");
-          console.log(growingSnake + " snake-growing2");
         }
         else {
-          $('#' + (blah[i])).css("background-color","yellow");
+          $('#' + (blah[i])).css("background-color","#d3d3d3");
           growingSnake[i] = blah[i] - position;
           $('#' + (growingSnake[i])).css("background-color","red");
-          console.log(blah + " blah3");
-          console.log(growingSnake + " snake-growing3");
         }
         if (growingSnake[0] == food.position) {
           findFood();
         }
       }
       else if(i != 0) {
-        $('#' + (blah[i])).css("background-color","yellow");
+        $('#' + (blah[i])).css("background-color","#d3d3d3");
         growingSnake[i] = blah[i-1];
         $('#' + (growingSnake[i])).css("background-color","red");
-        console.log(blah + " blah4");
-        console.log(growingSnake + " snake-growing4");
         if (growingSnake[0] == food.position) {
           findFood();
         }
       }
     }
   }
-  console.log(blah + " blah end")
-  console.log(growingSnake + "  gs end")
 };
 
 function findFood() {
@@ -117,8 +131,24 @@ function randomNumber() {
   return Math.floor((Math.random() * 1600) + 1);
 }
 
+function rightOrLeftEndGame(position) {
+  if (position % 40 == 0) {
+    return true;
+  }
+}
+
+function upOrDownEndGame(position) {
+  if (position > 1600 || position < 0){
+    return true;
+  }
+}
+
+function gameOver() {
+  console.log("Game Over!");
+}
+
 function createGrid(v){
-      var body = document.body; // whatever you want to append the rows to:
+      var body = document.getElementById("hello"); // whatever you want to append the rows to:
       for (var i = 0; i < v; i++) {
         var row = document.createElement("div");
         row.className = "row";
