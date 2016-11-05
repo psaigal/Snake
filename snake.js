@@ -42,42 +42,57 @@ function direction(e) {
 };
 
 function move(direction, position, operator) {
-  if (growingSnake[0] == food.position) {
-    findFood();
-  }
-  else {
-    var blah = growingSnake;
-    for(i = 0; i < growingSnake.length; i++) {
-      if (growingSnake.length == 1) {
-        $('#' + (growingSnake[i])).css("background-color","white");
+  var blah = growingSnake.slice();
+  console.log(blah + " blah");
+  console.log(growingSnake + " snake-growing");
+  for(i = 0; i < growingSnake.length; i++) {
+    if (growingSnake.length == 1) {
+      $('#' + (growingSnake[i])).css("background-color","yellow");
+      if (operator == "add") {
+        growingSnake[i] = growingSnake[i] + position;
+      }
+      else {
+        growingSnake[i] = growingSnake[i] - position;
+      }
+      $('#' + (growingSnake[i])).css("background-color","red");
+      if (growingSnake[i] == food.position) {
+        findFood();
+      }
+    }
+    else if (growingSnake.length !=1) {
+      if(i == 0) {
         if (operator == "add") {
-          growingSnake[i] = growingSnake[i] + position;
+          $('#' + (blah[i])).css("background-color","yellow");
+          growingSnake[i] = blah[i] + position;
+          $('#' + (growingSnake[i])).css("background-color","red");
+          console.log(blah + " blah2");
+          console.log(growingSnake + " snake-growing2");
         }
         else {
-          growingSnake[i] = growingSnake[i] - position;
+          $('#' + (blah[i])).css("background-color","yellow");
+          growingSnake[i] = blah[i] - position;
+          $('#' + (growingSnake[i])).css("background-color","red");
+          console.log(blah + " blah3");
+          console.log(growingSnake + " snake-growing3");
         }
+        if (growingSnake[0] == food.position) {
+          findFood();
+        }
+      }
+      else if(i != 0) {
+        $('#' + (blah[i])).css("background-color","yellow");
+        growingSnake[i] = blah[i-1];
         $('#' + (growingSnake[i])).css("background-color","red");
-     }
-     else if (growingSnake.length !=1) {
-        if(i == 0) {
-          if (operator == "add") {
-            growingSnake[i] = blah[i] + position;
-            console.log(growingSnake);
-          }
-          else {
-            growingSnake[i] = blah[i] - position;
-            console.log(growingSnake);
-          }
+        console.log(blah + " blah4");
+        console.log(growingSnake + " snake-growing4");
+        if (growingSnake[0] == food.position) {
+          findFood();
         }
-        else if(i != 0) {
-          growingSnake[i] = blah[i-1];
-          console.log(growingSnake);
-        }
-        $('#' + (growingSnake[i])).css("background-color","red");
-        $('#' + (blah[blah.length-1])).css("background-color","white");
       }
     }
   }
+  console.log(blah + " blah end")
+  console.log(growingSnake + "  gs end")
 };
 
 function findFood() {
@@ -96,7 +111,6 @@ function findFood() {
   else {
     growingSnake.push(growingSnake[growingSnake.length-1]+1)
   }
-  $('#' + (growingSnake[growingSnake.length-1])).css("background-color","red");
 }
 
 function randomNumber() {
