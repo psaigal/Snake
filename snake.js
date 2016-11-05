@@ -1,15 +1,15 @@
-$(document).ready(function(){
-  createGrid(40);
-  var food = {
-  position: randomNumber(),
-  setPosition: function() {
+createGrid(40);
+  $("#20").css("background-color","red");
+    var food = {
+    position: randomNumber(),
+    setPosition: function()
+    {
       $("#" + this.position).css("background-color","green")
     }
   }
-  $("#20").css("background-color","red");
 
   food.setPosition();
-});
+
 
 var snake = {
   frontPosition: 20,
@@ -42,6 +42,7 @@ function direction(e) {
 };
 
 function move() {
+    findFood();
     if(snake.direction == "down") {
         for(i = 0; i < growingSnake.length; i++) {
           if (growingSnake.length == 1) {
@@ -91,6 +92,26 @@ function move() {
         }
     }
 };
+console.log(food);
+function findFood() {
+  console.log(food);
+  if (growingSnake[0] == food.position) {
+    food.position;
+    food.setPosition();
+    if (snake.direction == "down") {
+      growingSnake.push(growingSnake[growingSnake.length-1]-40)
+    }
+    if (snake.direction == "right") {
+      growingSnake.push(growingSnake[growingSnake.length-1]-1)
+    }
+    if (snake.direction == "up") {
+      growingSnake.push(growingSnake[growingSnake.length-1]+40)
+    }
+    if (snake.direction == "left") {
+      growingSnake.push(growingSnake[growingSnake.length-1]+1)
+    }
+  }
+}
 
 function randomNumber() {
   return Math.floor((Math.random() * 1600) + 1);
