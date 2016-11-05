@@ -43,60 +43,82 @@ function direction(e) {
 
 function move() {
     findFood();
+    var blah = growingSnake;
     if(snake.direction == "down") {
         for(i = 0; i < growingSnake.length; i++) {
           if (growingSnake.length == 1) {
             $('#' + (growingSnake[i])).css("background-color","none");
+            growingSnake[i] = growingSnake[i] + 40;
+            $('#' + (growingSnake[i])).css("background-color","red");
+          }
+          if (i == 0 && growingSnake.length != 1) {
+            growingSnake[i] = blah[i] + 40;
           }
           else {
-            $('#' + (growingSnake[growingSnake.length-1])).css("background-color","none");
+            growingSnake[i] = blah[i-1];
           }
-          growingSnake[i] = growingSnake[i] + 40;
           $('#' + (growingSnake[i])).css("background-color","red");
+          $('#' + (blah[blah.length-1])).css("background-color","none");
         }
     }
     if(snake.direction == "up") {
         for(i = 0; i < growingSnake.length; i++) {
           if (growingSnake.length == 1) {
             $('#' + (growingSnake[i])).css("background-color","none");
+            growingSnake[i] = growingSnake[i] - 40;
+            $('#' + (growingSnake[i])).css("background-color","red");
+
+          }
+          if (i == 0 && growingSnake.length != 1) {
+            growingSnake[i] = blah[i] - 40;
           }
           else {
-            $('#' + (growingSnake[growingSnake.length-1])).css("background-color","none");
+            growingSnake[i] = blah[i-1];
           }
-          growingSnake[i] = growingSnake[i] - 40;
           $('#' + (growingSnake[i])).css("background-color","red");
+          $('#' + (blah[blah.length-1])).css("background-color","none");
         }
     }
     if(snake.direction == "right") {
         for(i = 0; i < growingSnake.length; i++) {
           if (growingSnake.length == 1) {
             $('#' + (growingSnake[i])).css("background-color","none");
+            growingSnake[i] = growingSnake[i] + 1;
+            $('#' + (growingSnake[i])).css("background-color","red");
+          }
+          if (i == 0 && growingSnake.length != 1) {
+            growingSnake[i] = blah[i] + 1;
           }
           else {
-            $('#' + (growingSnake[growingSnake.length-1])).css("background-color","none");
+            growingSnake[i] = blah[i-1];
           }
-          growingSnake[i] = growingSnake[i] + 1;
           $('#' + (growingSnake[i])).css("background-color","red");
+          $('#' + (blah[blah.length-1])).css("background-color","none");
         }
     }
     if(snake.direction == "left") {
         for(i = 0; i < growingSnake.length; i++) {
           if (growingSnake.length == 1) {
             $('#' + (growingSnake[i])).css("background-color","none");
+            growingSnake[i] = growingSnake[i] -1;
+            $('#' + (growingSnake[i])).css("background-color","red");
+          }
+          if (i == 0 && growingSnake.length != 1) {
+            growingSnake[i] = blah[i] - 1;
           }
           else {
-            $('#' + (growingSnake[growingSnake.length-1])).css("background-color","none");
+            growingSnake[i] = blah[i-1];
           }
-          growingSnake[i] = growingSnake[i] - 1;
           $('#' + (growingSnake[i])).css("background-color","red");
+          $('#' + (blah[blah.length-1])).css("background-color","none");
         }
-    }
+     }
 };
-console.log(food);
+
 function findFood() {
-  console.log(food);
   if (growingSnake[0] == food.position) {
-    food.position;
+    console.log("Found food!");
+    food.position = randomNumber();
     food.setPosition();
     if (snake.direction == "down") {
       growingSnake.push(growingSnake[growingSnake.length-1]-40)
