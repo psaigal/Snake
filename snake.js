@@ -1,4 +1,4 @@
-createGrid(40);
+ createGrid(40);
   $("#20").css("background-color","red");
     var food = {
     position: randomNumber(),
@@ -47,18 +47,22 @@ function move() {
     if(snake.direction == "down") {
         for(i = 0; i < growingSnake.length; i++) {
           if (growingSnake.length == 1) {
+          console.log(growingSnake);
             $('#' + (growingSnake[i])).css("background-color","none");
             growingSnake[i] = growingSnake[i] + 40;
+            console.log(growingSnake);
             $('#' + (growingSnake[i])).css("background-color","red");
           }
-          if (i == 0 && growingSnake.length != 1) {
-            growingSnake[i] = blah[i] + 40;
+          if (growingSnake.length !=1) {
+            if(i == 0) {
+              growingSnake[i] = blah[i] + 40;
+            }
+            else if(i != 0) {
+              growingSnake[i] = blah[i-1];
+            }
+            $('#' + (growingSnake[i])).css("background-color","red");
+            $('#' + (blah[blah.length-1])).css("background-color","none");
           }
-          else {
-            growingSnake[i] = blah[i-1];
-          }
-          $('#' + (growingSnake[i])).css("background-color","red");
-          $('#' + (blah[blah.length-1])).css("background-color","none");
         }
     }
     if(snake.direction == "up") {
@@ -69,14 +73,17 @@ function move() {
             $('#' + (growingSnake[i])).css("background-color","red");
 
           }
-          if (i == 0 && growingSnake.length != 1) {
-            growingSnake[i] = blah[i] - 40;
+          if (growingSnake.length !=1) {
+            if(i == 0) {
+            console.log(2);
+              growingSnake[i] = blah[i] - 40;
+            }
+            else if(i != 0) {
+              growingSnake[i] = blah[i-1];
+            }
+            $('#' + (growingSnake[i])).css("background-color","red");
+            $('#' + (blah[blah.length-1])).css("background-color","none");
           }
-          else {
-            growingSnake[i] = blah[i-1];
-          }
-          $('#' + (growingSnake[i])).css("background-color","red");
-          $('#' + (blah[blah.length-1])).css("background-color","none");
         }
     }
     if(snake.direction == "right") {
@@ -86,14 +93,17 @@ function move() {
             growingSnake[i] = growingSnake[i] + 1;
             $('#' + (growingSnake[i])).css("background-color","red");
           }
-          if (i == 0 && growingSnake.length != 1) {
-            growingSnake[i] = blah[i] + 1;
-          }
-          else {
-            growingSnake[i] = blah[i-1];
-          }
-          $('#' + (growingSnake[i])).css("background-color","red");
-          $('#' + (blah[blah.length-1])).css("background-color","none");
+          if (growingSnake.length !=1) {
+            if(i == 0) {
+            console.log(2);
+              growingSnake[i] = blah[i] + 1;
+            }
+            else if(i != 0) {
+              growingSnake[i] = blah[i-1];
+            }
+            $('#' + (growingSnake[i])).css("background-color","red");
+            $('#' + (blah[blah.length-1])).css("background-color","none");
+          };
         }
     }
     if(snake.direction == "left") {
@@ -103,16 +113,19 @@ function move() {
             growingSnake[i] = growingSnake[i] -1;
             $('#' + (growingSnake[i])).css("background-color","red");
           }
-          if (i == 0 && growingSnake.length != 1) {
-            growingSnake[i] = blah[i] - 1;
-          }
-          else {
-            growingSnake[i] = blah[i-1];
-          }
-          $('#' + (growingSnake[i])).css("background-color","red");
-          $('#' + (blah[blah.length-1])).css("background-color","none");
-        }
-     }
+          if (growingSnake.length !=1) {
+            if(i == 0) {
+            console.log(2);
+              growingSnake[i] = blah[i] - 1;
+            }
+            else if(i != 0) {
+              growingSnake[i] = blah[i-1];
+            }
+            $('#' + (growingSnake[i])).css("background-color","red");
+            $('#' + (blah[blah.length-1])).css("background-color","none");
+         }
+      }
+    }
 };
 
 function findFood() {
