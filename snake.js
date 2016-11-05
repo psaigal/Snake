@@ -1,4 +1,4 @@
- createGrid(40);
+createGrid(40);
   $("#20").css("background-color","red");
     var food = {
     position: randomNumber(),
@@ -42,12 +42,15 @@ function direction(e) {
 };
 
 function move() {
+  if(growingSnake[0] == food.position) {
     findFood();
+  }
+  else {
     var blah = growingSnake;
     if(snake.direction == "down") {
+        console.log(growingSnake);
         for(i = 0; i < growingSnake.length; i++) {
           if (growingSnake.length == 1) {
-          console.log(growingSnake);
             $('#' + (growingSnake[i])).css("background-color","none");
             growingSnake[i] = growingSnake[i] + 40;
             console.log(growingSnake);
@@ -126,31 +129,31 @@ function move() {
          }
       }
     }
+  }
 };
 
 function findFood() {
-  if (growingSnake[0] == food.position) {
-    console.log("Found food!");
-    food.position = randomNumber();
-    food.setPosition();
-    if (snake.direction == "down") {
-      growingSnake.push(growingSnake[growingSnake.length-1]-40)
-    }
-    if (snake.direction == "right") {
-      growingSnake.push(growingSnake[growingSnake.length-1]-1)
-    }
-    if (snake.direction == "up") {
-      growingSnake.push(growingSnake[growingSnake.length-1]+40)
-    }
-    if (snake.direction == "left") {
-      growingSnake.push(growingSnake[growingSnake.length-1]+1)
-    }
+  console.log("Found food!");
+  food.position = randomNumber();
+  food.setPosition();
+  if (snake.direction == "down") {
+    growingSnake.push(growingSnake[growingSnake.length-1]-40)
+  }
+  else if (snake.direction == "right") {
+    growingSnake.push(growingSnake[growingSnake.length-1]-1)
+  }
+  else if (snake.direction == "up") {
+    growingSnake.push(growingSnake[growingSnake.length-1]+40)
+  }
+  else if (snake.direction == "left") {
+    growingSnake.push(growingSnake[growingSnake.length-1]+1)
   }
 }
 
 function randomNumber() {
   return Math.floor((Math.random() * 1600) + 1);
 }
+
 
 function createGrid(v){
       var body = document.body; // whatever you want to append the rows to:
