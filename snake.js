@@ -1,125 +1,113 @@
-createGrid(40);
+$(document).ready(function(){
+  createGrid(40);
   $("#20").css("background-color","red");
-    var food = {
-    position: randomNumber(),
-    setPosition: function()
-    {
-      $("#" + this.position).css("background-color","green")
-    }
-  }
-
   food.setPosition();
-
+  $("body").keydown(function(event) {
+    direction(event);
+  });
+});
 
 var snake = {
   frontPosition: 20,
   direction: undefined
 }
 
+var food = {
+  position: randomNumber(),
+  setPosition: function()
+  {
+    $("#" + this.position).css("background-color","green")
+  }
+}
+
 var growingSnake = [20];
 
 var currentTimer;
 
- $("body").keydown(function(event) {
-    direction(event);
- });
+ // $("body").keydown(function(event) {
+ //    direction(event);
+ // });
 
 function direction(e) {
-    if (e.keyCode == 38) { //up
-      if (upOrDownEndGame(growingSnake[0])) {
-        return gameOver();
-      }
-      else {
-        window.clearInterval(currentTimer);
-        snake.direction = "up";
-        var up = setInterval(function(){move("up", 40, "subtract")},500);
-        currentTimer = up;
-      }
+  if (e.keyCode == 38) { //up
+    snake.direction = "up";
+    if (upOrDownEndGame(growingSnake[0])) {
+      return gameOver();
     }
-    else if (e.keyCode == 40) { //down
-      if (upOrDownEndGame(growingSnake[0])) {
-        return gameOver();
-      }
-      else {
-        window.clearInterval(currentTimer);
-        snake.direction = "down";
-        var down = setInterval(function(){move("down", 40, "add")},500);
-        currentTimer = down;
-      }
+    else {
+      window.clearInterval(currentTimer);
+      var up = setInterval(function(){move("up", 40, "subtract")},100);
+      currentTimer = up;
     }
-    else if (e.keyCode == 39) { //right
-      if (rightOrLeftEndGame(growingSnake[0])) {
-        return gameOver();
-      }
-      else {
-        window.clearInterval(currentTimer);
-        snake.direction = "right";
-        var right = setInterval(function(){move("right", 1, "add")},500);
-        currentTimer= right;
-      }
+  }
+  else if (e.keyCode == 40) { //down
+    snake.direction = "down";
+    if (upOrDownEndGame(growingSnake[0])) {
+      return gameOver();
     }
-     else if (e.keyCode == 37) { //left
-      if (rightOrLeftEndGame(growingSnake[0]-1)) {
-        return gameOver();
-      }
-      else {
-        window.clearInterval(currentTimer);
-        snake.direction = "left";
-        var left = setInterval(function(){move("left", 1, "subtract")},500);
-        currentTimer= left;
-      }
+    else {
+      window.clearInterval(currentTimer);
+      var down = setInterval(function(){move("down", 40, "add")},100);
+      currentTimer = down;
     }
+  }
+  else if (e.keyCode == 39) { //right
+    snake.direction = "right";
+    window.clearInterval(currentTimer);
+    var right = setInterval(function(){move("right", 1, "add")},100);
+    currentTimer= right;
+  }
+  else if (e.keyCode == 37) { //left
+    snake.direction = "left";
+    window.clearInterval(currentTimer);
+    var left = setInterval(function(){move("left", 1, "subtract")},100);
+    currentTimer= left;
+  }
 };
 
 function move(direction, position, operator) {
+  console.log(growingSnake + " growingsnake!");
   var blah = growingSnake.slice();
   for(i = 0; i < growingSnake.length; i++) {
-    if (growingSnake.length == 1) {
-      $('#' + (growingSnake[i])).css("background-color","#d3d3d3");
+    if(i == 0) {
       if (operator == "add") {
-        growingSnake[i] = growingSnake[i] + position;
+        $('#' + (blah[i])).css("background-color","white");
+        growingSnake[i] = blah[i] + position;
+        if (growingSnake[i] > 1600 || growingSnake[i] < 0){
+          console.log('Game Over');
+        }
+        $('#' + (growingSnake[i])).css("background-color","red");
       }
       else {
-        growingSnake[i] = growingSnake[i] - position;
+        $('#' + (blah[i])).css("background-color","white");
+        growingSnake[i] = blah[i] - position;
+        $('#' + (growingSnake[i])).css("background-color","red");
       }
-      $('#' + (growingSnake[i])).css("background-color","red");
-      if (growingSnake[i] == food.position) {
+      if (growingSnake[0] == food.position) {
         findFood();
       }
     }
-    else if (growingSnake.length !=1) {
-      if(i == 0) {
-        if (operator == "add") {
-          $('#' + (blah[i])).css("background-color","#d3d3d3");
-          growingSnake[i] = blah[i] + position;
-          if (growingSnake[i] > 1600 || growingSnake[i] < 0){
-            console.log('Game Over');
-          }
-          $('#' + (growingSnake[i])).css("background-color","red");
-        }
-        else {
-          $('#' + (blah[i])).css("background-color","#d3d3d3");
-          growingSnake[i] = blah[i] - position;
-          $('#' + (growingSnake[i])).css("background-color","red");
-        }
-        if (growingSnake[0] == food.position) {
-          findFood();
-        }
-      }
-      else if(i != 0) {
-        $('#' + (blah[i])).css("background-color","#d3d3d3");
-        growingSnake[i] = blah[i-1];
-        $('#' + (growingSnake[i])).css("background-color","red");
-        if (growingSnake[0] == food.position) {
-          findFood();
-        }
+    else if(i != 0) {
+      $('#' + (blah[i])).css("background-color","white");
+      growingSnake[i] = blah[i-1];
+      $('#' + (growingSnake[i])).css("background-color","red");
+      if (growingSnake[0] == food.position) {
+        findFood();
       }
     }
+    if (rightOrLeftEndGame(growingSnake[0]) && snake.direction == "right") {
+      return gameOver();
+    }
+    if (rightOrLeftEndGame(growingSnake[0]-1) && snake.direction == "left") {
+      return gameOver();
+    }
+  }
+  if (snakeEatsItself(growingSnake)){
+    return gameOver();
   }
 };
 
 function findFood() {
-  console.log("Found food!");
   food.position = randomNumber();
   food.setPosition();
   if (snake.direction == "down") {
@@ -134,6 +122,16 @@ function findFood() {
   else {
     growingSnake.push(growingSnake[growingSnake.length-1]+1)
   }
+}
+
+function snakeEatsItself(array) {
+  var sortedArray = array.slice().sort(); //duplicate original array and then sort it
+  for (var i = 0; i < array.length - 1; i++) {
+    if (sortedArray[i + 1] == sortedArray[i]) {
+        return true;
+    }
+  }
+  return false;
 }
 
 function randomNumber() {
@@ -153,21 +151,22 @@ function upOrDownEndGame(position) {
 }
 
 function gameOver() {
-  console.log("Game Over!");
+  alert("Game Over!");
 }
 
+
 function createGrid(v){
-      var body = document.getElementById("hello"); // whatever you want to append the rows to:
-      for (var i = 0; i < v; i++) {
-        var row = document.createElement("div");
-        row.className = "row";
-        row.id = "row-" + (i + 1)
-        for(var x = 1; x <= v; x++){
-            var square = document.createElement("div");
-            square.className = "square";
-            square.id = (i * v) + x
-            row.appendChild(square);
-        }
-        body.appendChild(row);
-      }
-    };
+var body = document.body; // whatever you want to append the rows to:
+  for (var i = 0; i < v; i++) {
+    var row = document.createElement("div");
+    row.className = "row";
+    row.id = "row-" + (i + 1)
+    for(var x = 1; x <= v; x++){
+      var square = document.createElement("div");
+      square.className = "square";
+      square.id = (i * v) + x
+      row.appendChild(square);
+    }
+    body.appendChild(row);
+  }
+};
