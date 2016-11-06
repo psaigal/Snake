@@ -8,9 +8,10 @@ $(document).ready(function(){
 });
 
 var snake = {
-  frontPosition: 20,
   direction: undefined
 }
+
+var growingSnake = [20];
 
 var food = {
   position: randomNumber(),
@@ -20,48 +21,32 @@ var food = {
   }
 }
 
-var growingSnake = [20];
-
 var currentTimer;
-
- // $("body").keydown(function(event) {
- //    direction(event);
- // });
 
 function direction(e) {
   if (e.keyCode == 38) { //up
     snake.direction = "up";
-    if (upOrDownEndGame(growingSnake[0])) {
-      return gameOver();
-    }
-    else {
-      window.clearInterval(currentTimer);
-      var up = setInterval(function(){move("up", 40, "subtract")},100);
-      currentTimer = up;
-    }
+    window.clearInterval(currentTimer);
+    var up = setInterval(function(){move("up", 40, "subtract")},300);
+    currentTimer = up;
   }
   else if (e.keyCode == 40) { //down
     snake.direction = "down";
-    if (upOrDownEndGame(growingSnake[0])) {
-      return gameOver();
-    }
-    else {
-      window.clearInterval(currentTimer);
-      var down = setInterval(function(){move("down", 40, "add")},100);
-      currentTimer = down;
-    }
+    window.clearInterval(currentTimer);
+    var down = setInterval(function(){move("down", 40, "add")},300);
+    currentTimer = down;
   }
   else if (e.keyCode == 39) { //right
     snake.direction = "right";
     window.clearInterval(currentTimer);
-    var right = setInterval(function(){move("right", 1, "add")},100);
-    currentTimer= right;
+    var right = setInterval(function(){move("right", 1, "add")},300);
+    currentTimer = right;
   }
   else if (e.keyCode == 37) { //left
     snake.direction = "left";
     window.clearInterval(currentTimer);
-    var left = setInterval(function(){move("left", 1, "subtract")},100);
-    currentTimer= left;
+    var left = setInterval(function(){move("left", 1, "subtract")},300);
+    currentTimer = left;
   }
 };
 
@@ -72,14 +57,17 @@ function move(direction, position, operator) {
       if (operator == "add") {
         $('#' + (growingSnakeDuplicate[i])).css("background-color","white");
         growingSnake[i] = growingSnakeDuplicate[i] + position;
-        if (growingSnake[i] > 1600 || growingSnake[i] < 0){
-          console.log('Game Over');
+        if (snake.direction == "right" && growingSnakeDuplicate[0] % 40 == 0 && (growingSnake[0]-1) % 40 == 0) {
+          return gameOver();
         }
         $('#' + (growingSnake[i])).css("background-color","red");
       }
       else {
         $('#' + (growingSnakeDuplicate[i])).css("background-color","white");
         growingSnake[i] = growingSnakeDuplicate[i] - position;
+        if (snake.direction == "left" && (growingSnakeDuplicate[0]-1) % 40 == 0 && growingSnake[0] % 40 == 0) {
+          return gameOver();
+        }
         $('#' + (growingSnake[i])).css("background-color","red");
       }
       if (growingSnake[0] == food.position) {
@@ -93,12 +81,6 @@ function move(direction, position, operator) {
       if (growingSnake[0] == food.position) {
         findFood();
       }
-    }
-    if (rightOrLeftEndGame(growingSnake[0]) && snake.direction == "right") {
-      return gameOver();
-    }
-    if (rightOrLeftEndGame(growingSnake[0]-1) && snake.direction == "left") {
-      return gameOver();
     }
   }
   if (snakeEatsItself(growingSnake)){
@@ -150,22 +132,23 @@ function upOrDownEndGame(position) {
 }
 
 function gameOver() {
-  alert("Game Over!");
+  console.log("Game Over!");
+  growingSnake = [];
 }
 
-
 function createGrid(v){
-var body = document.body; // whatever you want to append the rows to:
+  var body = document.getElementById("snake-container"); // whatever you want to append the rows to:
   for (var i = 0; i < v; i++) {
     var row = document.createElement("div");
     row.className = "row";
     row.id = "row-" + (i + 1)
     for(var x = 1; x <= v; x++){
-      var square = document.createElement("div");
-      square.className = "square";
-      square.id = (i * v) + x
-      row.appendChild(square);
+        var square = document.createElement("div");
+        square.className = "square";
+        square.id = (i * v) + x
+        row.appendChild(square);
     }
     body.appendChild(row);
   }
 };
+

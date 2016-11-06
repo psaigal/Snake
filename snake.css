@@ -13,3 +13,13 @@ div.square {
 h1 {
   text-align: center;
 }
+
+.body-container {
+  margin: 0 auto;
+  position: absolute;
+}
+
+#snake-container {
+  border: 1px solid red;
+  position: relative;
+}
