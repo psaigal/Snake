@@ -1,17 +1,19 @@
 $(document).ready(function(){
   createGrid(40);
-  $("#20").css("background-color","red");
+  $("#340").css("background-color","red");
   food.setPosition();
   $("body").keydown(function(event) {
     direction(event);
   });
+  $(".score").html("<p class='score-text'> Score: " + snake.score + "</p>");
 });
 
 var snake = {
-  direction: undefined
+  direction: undefined,
+  score: 0
 }
 
-var growingSnake = [20];
+var growingSnake = [340];
 
 var food = {
   position: randomNumber(),
@@ -27,25 +29,25 @@ function direction(e) {
   if (e.keyCode == 38) { //up
     snake.direction = "up";
     window.clearInterval(currentTimer);
-    var up = setInterval(function(){move("up", 40, "subtract")},300);
+    var up = setInterval(function(){move("up", 40, "subtract")},100);
     currentTimer = up;
   }
   else if (e.keyCode == 40) { //down
     snake.direction = "down";
     window.clearInterval(currentTimer);
-    var down = setInterval(function(){move("down", 40, "add")},300);
+    var down = setInterval(function(){move("down", 40, "add")},100);
     currentTimer = down;
   }
   else if (e.keyCode == 39) { //right
     snake.direction = "right";
     window.clearInterval(currentTimer);
-    var right = setInterval(function(){move("right", 1, "add")},300);
+    var right = setInterval(function(){move("right", 1, "add")},100);
     currentTimer = right;
   }
   else if (e.keyCode == 37) { //left
     snake.direction = "left";
     window.clearInterval(currentTimer);
-    var left = setInterval(function(){move("left", 1, "subtract")},300);
+    var left = setInterval(function(){move("left", 1, "subtract")},100);
     currentTimer = left;
   }
 };
@@ -60,6 +62,7 @@ function move(direction, position, operator) {
         if (snake.direction == "right" && growingSnakeDuplicate[0] % 40 == 0 && (growingSnake[0]-1) % 40 == 0) {
           return gameOver();
         }
+        upOrDownEndGame(growingSnake[0]);
         $('#' + (growingSnake[i])).css("background-color","red");
       }
       else {
@@ -68,6 +71,7 @@ function move(direction, position, operator) {
         if (snake.direction == "left" && (growingSnakeDuplicate[0]-1) % 40 == 0 && growingSnake[0] % 40 == 0) {
           return gameOver();
         }
+        upOrDownEndGame(growingSnake[0]);
         $('#' + (growingSnake[i])).css("background-color","red");
       }
       if (growingSnake[0] == food.position) {
@@ -77,7 +81,7 @@ function move(direction, position, operator) {
     else if(i != 0) {
       $('#' + (growingSnakeDuplicate[i])).css("background-color","white");
       growingSnake[i] = growingSnakeDuplicate[i-1];
-      $('#' + (growingSnake[i])).css("background-color","red");
+      $('#' + (growingSnake[i])).css("background-color","purple");
       if (growingSnake[0] == food.position) {
         findFood();
       }
@@ -89,6 +93,8 @@ function move(direction, position, operator) {
 };
 
 function findFood() {
+  snake.score += 1;
+  $(".score").html("<p class='score-text'> Score: " + snake.score + "</p>");
   food.position = randomNumber();
   food.setPosition();
   if (snake.direction == "down") {
@@ -127,13 +133,15 @@ function rightOrLeftEndGame(position) {
 
 function upOrDownEndGame(position) {
   if (position > 1600 || position < 0){
-    return true;
+    return gameOver();
   }
 }
 
 function gameOver() {
   console.log("Game Over!");
   growingSnake = [];
+  $("#snake-container").css("opacity", "0.2");
+  $("#game-over").css("display", "block");
 }
 
 function createGrid(v){
