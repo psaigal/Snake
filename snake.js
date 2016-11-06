@@ -97,6 +97,10 @@ function findFood() {
   $(".score").html("<p class='score-text'> Score: " + snake.score + "</p>");
   food.position = randomNumber();
   food.setPosition();
+  if (growingSnake[0] == food.position) {
+    food.position = randomNumber();
+    food.setPosition();
+  }
   if (snake.direction == "down") {
     growingSnake.push(growingSnake[growingSnake.length-1]-40)
   }
@@ -125,12 +129,6 @@ function randomNumber() {
   return Math.floor((Math.random() * 1600) + 1);
 }
 
-function rightOrLeftEndGame(position) {
-  if (position % 40 == 0) {
-    return true;
-  }
-}
-
 function upOrDownEndGame(position) {
   if (position > 1600 || position < 0){
     return gameOver();
@@ -138,7 +136,6 @@ function upOrDownEndGame(position) {
 }
 
 function gameOver() {
-  console.log("Game Over!");
   growingSnake = [];
   $("#snake-container").css("opacity", "0.2");
   $("#game-over").css("display", "block");
@@ -159,4 +156,3 @@ function createGrid(v){
     body.appendChild(row);
   }
 };
-
