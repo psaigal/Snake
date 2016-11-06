@@ -66,21 +66,20 @@ function direction(e) {
 };
 
 function move(direction, position, operator) {
-  console.log(growingSnake + " growingsnake!");
-  var blah = growingSnake.slice();
+  var growingSnakeDuplicate = growingSnake.slice();
   for(i = 0; i < growingSnake.length; i++) {
     if(i == 0) {
       if (operator == "add") {
-        $('#' + (blah[i])).css("background-color","white");
-        growingSnake[i] = blah[i] + position;
+        $('#' + (growingSnakeDuplicate[i])).css("background-color","white");
+        growingSnake[i] = growingSnakeDuplicate[i] + position;
         if (growingSnake[i] > 1600 || growingSnake[i] < 0){
           console.log('Game Over');
         }
         $('#' + (growingSnake[i])).css("background-color","red");
       }
       else {
-        $('#' + (blah[i])).css("background-color","white");
-        growingSnake[i] = blah[i] - position;
+        $('#' + (growingSnakeDuplicate[i])).css("background-color","white");
+        growingSnake[i] = growingSnakeDuplicate[i] - position;
         $('#' + (growingSnake[i])).css("background-color","red");
       }
       if (growingSnake[0] == food.position) {
@@ -88,8 +87,8 @@ function move(direction, position, operator) {
       }
     }
     else if(i != 0) {
-      $('#' + (blah[i])).css("background-color","white");
-      growingSnake[i] = blah[i-1];
+      $('#' + (growingSnakeDuplicate[i])).css("background-color","white");
+      growingSnake[i] = growingSnakeDuplicate[i-1];
       $('#' + (growingSnake[i])).css("background-color","red");
       if (growingSnake[0] == food.position) {
         findFood();
